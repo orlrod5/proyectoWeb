@@ -1,78 +1,61 @@
-import React, { useState } from 'react';
+//import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import axios from "axios";
+import Usuario from "./components/Usuario/Usuario";
+import Home from './components/Home/Home';
+import Cart from './components/Cart/Cart';
+import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
 function App() {
-  const [cartItems, setCartItems] = useState([]);
+  const [cart, setCart] = useState([]);
 
-  const addToCart = (item) => {
-    setCartItems([...cartItems, item]);
+  // Función para agregar un producto al carrito
+  const addToCart = (product) => {
+    setCart([...cart, product]);
   };
 
   return (
     <div className="App">
-      <header className="header">
-        <div className="header-logo">
-          <h1>TrendNet</h1>
-        </div>
-        <nav className="header-nav">
-          <ul>
-            <li>
-              <a href="#">Productos</a>
-            </li>
-            <li>
-              <a href="#">Contacto</a>
-            </li>
-            <li>
-              <a href="#">Carrito</a>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      <main className="main-content">
-        <section className="product-list">
-          <h2>Lámparas</h2>
-          <div className="product-items-container">
-            <div className="product-item" onClick={() => addToCart({ name: 'Lámpara de Mesa', price: 29617.5 })}>
-              <img src="lamp1.jpg" alt="Lámpara" />
-              <h3>Lámpara de Mesa</h3>
-              <p>€29.617,50</p>
-            </div>
-            <div className="product-item" onClick={() => addToCart({ name: 'Lámpara Piso Decorativa', price: 46087.5 })}>
-              <img src="lamp2.jpg" alt="Lámpara" />
-              <h3>Lámpara Piso Decorativa</h3>
-              <p>€46.087,50</p>
-            </div>
-            <div className="product-item" onClick={() => addToCart({ name: 'Lámpara de Escritorio', price: 19492.5 })}>
-              <img src="lamp3.jpg" alt="Lámpara" />
-              <h3>Lámpara de Escritorio</h3>
-              <p>€19.492,50</p>
-            </div>
-            <div className="product-item" onClick={() => addToCart({ name: 'Lámpara de Mesa Decorativa', price: 27562.5 })}>
-              <img src="lamp4.jpg" alt="Lámpara" />
-              <h3>Lámpara de Mesa Decorativa</h3>
-              <p>€27.562,50</p>
-            </div>
-            <div className="product-item" onClick={() => addToCart({ name: 'Lámpara de Piso', price: 69937.5 })}>
-              <img src="lamp5.jpg" alt="Lámpara" />
-              <h3>Lámpara de Piso</h3>
-              <p>€69.937,50</p>
-            </div>
-          </div>
-        </section>
-      </main>
-      <footer className="footer">
-        <div className="footer-content">
-          <p>&copy; 2024 TrendNet. Todos los derechos reservados.</p>
-          <ul>
-            <li>
-              <a href="#">Política de privacidad</a>
-            </li>
-            <li>
-              <a href="#">Términos y condiciones</a>
-            </li>
-          </ul>
-        </div>
-      </footer>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Tienda OnLine
+            </Typography>
+
+            <Button color="inherit" to="/" >Inicio</Button>
+
+            <Button color="inherit" to="/Usuario">Registro</Button>
+
+            <Button color="inherit" to="/cart">Carrito</Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
+  
+      <Router>
+        <Routes>
+          <Route path="/Usuario" element={<Usuario />} />
+          <Route path="/cart" element={<Cart cart={cart} />} />
+          <Route path="/" element={<Home addToCart={addToCart} />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
